@@ -1,0 +1,42 @@
+{{- if .Values.applicationset.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: external-apps
+  namespace: {{ .Values.applicationset.namespace }}
+spec:
+  generators:
+  - scmProvider:
+      github:
+        organization: {{ .Values.applicationset.organization }}
+        allBranches: false
+      filters:
+        - labelMatch: {{ .Values.applicationset.labelMatch }}
+        - pathsExist: ["infra/"]
+        - branchMatch: ^{{ .Values.applicationset.branch }}$
+      cloneProtocol: https
+      requeueAfterSeconds: {{ .Values.applicationset.requeueAfterSeconds }}
+  template:
+    metadata:
+      name: "{{`{{ repository }}`}}"
+      namespace: {{ .Values.applicationset.namespace }}
+      labels:
+        managed-by: yby
+        app-type: external
+        source-repo: "{{`{{ url }}`}}"
+    spec:
+      project: external-apps
+      source:
+        repoURL: "{{`{{ url }}`}}"
+        targetRevision: "{{`{{ branch }}`}}"
+        path: infra/
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: apps
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+{{- end }}

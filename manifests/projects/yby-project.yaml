@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: yby
+  namespace: argocd
+  labels:
+    project: yby
+spec:
+  description: "Yby - Infraestrutura Kubernetes com GitOps"
+  
+  # Repositórios permitidos
+  sourceRepos:
+  - 'https://github.com/*/yby'
+  - 'https://charts.bitnami.com/bitnami'
+  - 'https://prometheus-community.github.io/helm-charts'
+  - 'https://grafana.github.io/helm-charts'
+  - 'https://traefik.github.io/charts'
+  
+  # Clusters de destino permitidos
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  
+  # Recursos permitidos
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  
+  # Recursos negados (por segurança)
+  clusterResourceBlacklist: []
+  
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+    
+  # Políticas de sincronização
+  syncWindows: []
+  
+  # RBAC específico do projeto
+  roles:
+  - name: admin
+    description: "Acesso administrativo completo ao projeto"
+    policies:
+    - p, proj:yby:admin, applications, *, yby/*, allow
+    - p, proj:yby:admin, repositories, *, *, allow
+    groups:
+    - yby:admin
+    
+  - name: developer
+    description: "Acesso de desenvolvedor às aplicações"
+    policies:
+    - p, proj:yby:developer, applications, get, yby/*, allow
+    - p, proj:yby:developer, applications, sync, yby/*, allow
+    - p, proj:yby:developer, applications, action, yby/*, allow
+    groups:
+    - yby:developer
+    
+  - name: readonly
+    description: "Acesso somente leitura"
+    policies:
+    - p, proj:yby:readonly, applications, get, yby/*, allow
+    - p, proj:yby:readonly, repositories, get, *, allow
+    groups:
+    - yby:readonly

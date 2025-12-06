@@ -1,0 +1,12 @@
+DNS
+- Criar wildcard A/AAAA: *.seu-dominio.com apontando para o IP público do servidor
+- (Opcional) Criar A/AAAA para o apex: seu-dominio.com
+
+Rede
+- Garantir portas 80 e 443 abertas até o Traefik
+- Conferir que /.well-known/acme-challenge na porta 80 chega ao Traefik (ACME)
+
+Validação
+- kubectl get ingress -A (deve listar app.seu-dominio.com)
+- kubectl logs -n ingress-system -l app=traefik (ver emissão Let’s Encrypt)
+- Acessar https://app.seu-dominio.com (HTTPS válido e roteamento ok)

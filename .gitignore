@@ -1,0 +1,282 @@
+# Yby - GitIgnore
+# Infraestrutura Kubernetes com GitOps
+
+# ==================================
+# Kubernetes e Secrets
+# ==================================
+
+# Nunca commitar secrets desencriptados
+secrets/*.yaml
+!secrets/sealed-*.yaml
+!secrets/.gitkeep
+
+# Debug files
+debug_manifest.yaml
+
+# Configurações kubectl sensíveis
+kubeconfig*
+*.kubeconfig
+.kube/
+
+# Certificados e chaves privadas
+*.key
+*.crt
+*.pem
+*.p12
+*.jks
+*.keystore
+*.truststore
+
+# ==================================
+# Ferramentas Locais
+# ==================================
+
+# k3d
+.k3d/
+k3d-registry-*
+
+# Helm
+charts/*/charts/
+charts/*/Chart.lock
+*.tgz
+
+# Kustomize temporários
+kustomization.yaml.bak
+*.orig
+
+# Terraform (se usado no futuro)
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+
+# ==================================
+# Desenvolvimento Local
+# ==================================
+
+# Docker Compose
+local/.env
+local/docker-compose.override.yaml
+local/volumes/
+local/data/
+
+# Logs locais
+logs/
+*.log
+tmp/
+temp/
+
+# Backup e cache
+*.backup
+*.cache
+.cache/
+backups/
+.last-backup
+
+# ==================================
+# IDEs e Editores
+# ==================================
+
+# VS Code
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+!.vscode/recommended-extensions.json
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ==================================
+# Sistema Operacional
+# ==================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+# ==================================
+# Variáveis de Ambiente
+# ==================================
+
+# Arquivos de ambiente (podem conter secrets)
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+
+# Informações do cluster provisionado
+cluster-info.txt
+cluster-info-*.txt
+
+# Scripts com credenciais
+*-credentials.*
+
+
+# ==================================
+# Build e Deploy
+# ==================================
+
+# Artefatos de build
+dist/
+build/
+target/
+out/
+
+# Arquivos temporários do Make
+*.d
+.make-*
+
+# GitOps temporários
+rendered-manifests/
+generated/
+
+# ==================================
+# Monitoring e Observabilidade
+# ==================================
+
+# Datadog
+datadog.yaml
+dd-*.yaml
+
+# Prometheus
+prometheus-data/
+alertmanager-data/
+
+# Grafana
+grafana-data/
+grafana.db
+
+# ==================================
+# CI/CD
+# ==================================
+
+# GitHub Actions artifacts
+.github/workflows/*.generated
+
+# Argo Workflows temporários
+workflows/tmp/
+workflows/logs/
+
+# ==================================
+# Documentação Temporária
+# ==================================
+
+# Arquivos markdown temporários
+*.md.bak
+*.md.tmp
+
+# Draw.io backups
+*.drawio.bkp
+*.drawio~
+
+# ==================================
+# Ferramentas de Debug
+# ==================================
+
+# kubectl debug
+debug-*
+*.debug
+
+# Profiling
+*.prof
+*.trace
+
+# Core dumps
+core
+core.*
+
+# ==================================
+# Dependências e Cache
+# ==================================
+
+# Node.js (se usado para tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (se usado para scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Go (se usado para tools)
+vendor/
+*.sum
+
+# ==================================
+# Arquivos Pessoais
+# ==================================
+
+# Notas pessoais
+NOTES.md
+TODO.md
+PERSONAL.md
+
+# Scripts de desenvolvimento pessoal
+#dev-*
+#test-*
+#my-*
+
+# ==================================
+# Arquivos Grandes
+# ==================================
+
+# Dumps de dados
+*.sql.gz
+*.dump
+*.backup.gz
+
+# Imagens grandes
+*.iso
+*.img
+*.vmdk
+
+# Synapstor
+
+.project_meta_template/
+
+package.json
+package-lock.json
+
+test-file.tmp
+
+/REPORTS//cli/yby
+
+**/yby

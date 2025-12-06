@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cleanup-minha-app
+  namespace: apps
+  annotations:
+    argocd.argoproj.io/hook: SyncFail
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: cleanup
+        image: bitnami/kubectl:1.30
+        command: ["sh","-c"]
+        args:
+        - "kubectl delete ingress minha-app -n apps || true; kubectl delete svc minha-app-svc -n apps || true; kubectl delete deploy minha-app -n apps || true"
+      serviceAccountName: cleanup-minha-app
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cleanup-minha-app
+  namespace: apps
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cleanup-minha-app
+  namespace: apps
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get","list","delete"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get","list","delete"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["get","list","delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cleanup-minha-app
+  namespace: apps
+subjects:
+- kind: ServiceAccount
+  name: cleanup-minha-app
+  namespace: apps
+roleRef:
+  kind: Role
+  name: cleanup-minha-app
+  apiGroup: rbac.authorization.k8s.io

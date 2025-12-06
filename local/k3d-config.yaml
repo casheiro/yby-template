@@ -1,0 +1,55 @@
+# Configuração k3d para desenvolvimento local
+# Cluster Kubernetes leve com recursos otimizados para GitOps
+
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: yby-local
+servers: 1
+agents: 1
+kubeAPI:
+  host: "127.0.0.1"
+  hostIP: "127.0.0.1"
+  hostPort: "6443"
+ports:
+  - port: 8080:80
+    nodeFilters:
+      - loadbalancer
+  - port: 8443:443
+    nodeFilters:
+      - loadbalancer
+  - port: 9000:9000
+    nodeFilters:
+      - loadbalancer
+env:
+  - envVar: K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml
+    nodeFilters:
+      - server:*
+volumes:
+  - volume: /usr/src:/usr/src
+    nodeFilters:
+      - all
+  - volume: /lib/modules:/lib/modules
+    nodeFilters:
+      - all
+options:
+  k3d:
+    wait: true
+    timeout: "60s"
+    disableLoadbalancer: false
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true
+registries:
+  create:
+    name: registry.localhost
+    host: "127.0.0.1"
+    hostPort: "5000"

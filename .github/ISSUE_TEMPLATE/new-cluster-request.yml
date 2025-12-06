@@ -1,0 +1,69 @@
+name: 🚀 Solicitar Novo Cluster
+description: Dispara a criação automática de um novo repositório de cluster pré-configurado.
+title: "[NEW-CLUSTER]: <nome-do-cluster>"
+labels: ["ops:provision", "kind:cluster"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 👋 Bem-vindo ao Self-Service de Clusters!
+        Preencha os dados abaixo para provisionar um novo repositório GitOps baseado no template Yby.
+        
+        > **Nota:** A criação só iniciará após um mantenedor adicionar a label `ops:approved`.
+
+  - type: input
+    id: cluster-name
+    attributes:
+      label: Nome do Cluster (Slug)
+      description: "Nome do repositório a ser criado (apenas letras minúsculas e hífens)."
+      placeholder: meu-novo-cluster
+    validations:
+      required: true
+
+  - type: input
+    id: domain
+    attributes:
+      label: Domínio Base
+      description: "Domínio principal para Ingress (ex: cliente.com.br). Deixe vazio se não tiver."
+      placeholder: k8s.meudominio.com
+    validations:
+      required: false
+
+  - type: input
+    id: tls-email
+    attributes:
+      label: Email para TLS (Let's Encrypt)
+      description: "Email para registro de certificados HTTPS."
+      placeholder: admin@meudominio.com
+    validations:
+      required: false
+
+  - type: input
+    id: github-org
+    attributes:
+      label: GitHub Organization/User
+      description: "Nome da organização ou usuário onde estão as aplicações (para Discovery)."
+      placeholder: minha-org
+    validations:
+      required: false
+
+  - type: input
+    id: discovery-topic
+    attributes:
+      label: Tópico de Discovery
+      description: "Tópico (tag) que será usado para descobrir aplicações neste cluster."
+      placeholder: yby-app
+      value: yby-app
+    validations:
+      required: true
+
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: Visibilidade do Repositório
+      options:
+        - private
+        - public
+      default: 0
+    validations:
+      required: true

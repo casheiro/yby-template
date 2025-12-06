@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "global": {
+      "type": "object",
+      "properties": {
+        "clusterName": { "type": "string", "minLength": 1 },
+        "environment": { "type": "string" },
+        "domainBase": { "type": "string" }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "branch": { "type": "string" },
+        "organization": { "type": "string" }
+      },
+      "required": ["url", "branch"]
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "tls": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "certResolver": { "type": "string" },
+            "email": { "type": "string" }
+          }
+        },
+        "whitelist": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "sourceRanges": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "datadog": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "secretName": { "type": "string" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "ingress": { "properties": { "tls": { "properties": { "enabled": { "const": true } } } } } } },
+      "then": { "properties": { "ingress": { "properties": { "tls": { "required": ["email"] } } } } }
+    },
+    {
+      "if": { "properties": { "datadog": { "properties": { "enabled": { "const": true } } } } },
+      "then": { "properties": { "datadog": { "required": ["secretName"] } } }
+    }
+  ]
+}

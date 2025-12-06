@@ -1,0 +1,22 @@
+# Profile Local - Desenvolvimento & Validação
+# Habilita stack de observabilidade para validar dashboards
+
+kepler:
+  serviceMonitor:
+    enabled: true
+
+observability:
+  mode: "prometheus"
+  prometheus:
+    enabled: true
+
+kube-prometheus-stack:
+  grafana:
+    adminPassword: "admin"
+    service:
+      type: ClusterIP
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: {}
+      serviceMonitorNamespaceSelector: {}

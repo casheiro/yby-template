@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: preflight-minha-app
+  namespace: apps
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: preflight
+        image: curlimages/curl:8.8.0
+        command: ["sh","-c"]
+        args:
+        - "set -e; curl -sI http://${HOST} --max-time 5 >/dev/null; curl -sI http://${HOST}/.well-known/acme-challenge/ping --max-time 5 >/dev/null; curl -sI https://${HOST} --max-time 5 -k >/dev/null"
+        env:
+        - name: HOST
+          value: app.seu-dominio.com

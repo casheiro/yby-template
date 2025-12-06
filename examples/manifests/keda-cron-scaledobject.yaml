@@ -1,0 +1,18 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: scale-to-zero-example
+  namespace: default # Altere para o namespace da sua aplicação
+spec:
+  scaleTargetRef:
+    name: my-deployment # Nome do Deployment a ser escalado
+  minReplicaCount: 0  # Permite desligar totalmente
+  maxReplicaCount: 1  # Quantidade de réplicas quando ligado
+  triggers:
+  - type: cron
+    metadata:
+      timezone: America/Sao_Paulo
+      # Desliga as 20:00 e liga as 08:00 (dias de semana e fim de semana)
+      start: 0 20 * * *
+      end: 0 8 * * *
+      desiredReplicas: "0"

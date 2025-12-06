@@ -1,0 +1,114 @@
+# ==============================================
+# Yby - Configuração Centralizada
+# ==============================================
+
+# Configurações Globais
+global:
+  environment: dev
+  domainBase: "example.com"
+
+# Repositório Git do Cluster
+git:
+  repoURL: https://github.com/my-user/yby-template
+  targetRevision: main
+  branch: main
+  repoName: yby
+
+# Argo CD
+project: default
+argocd:
+  namespace: argocd
+  destinationServer: https://kubernetes.default.svc
+  enabled: true
+  url: https://argocd.example.com
+  server:
+    insecure: true
+
+# Descoberta Automática de Aplicações (Zero-Touch)
+discovery:
+  enabled: true
+  scmProvider: github
+  organization: my-org
+  topic: my-org-app
+  tokenSecretName: github-token
+  tokenSecretKey: token
+
+# Ingress e TLS
+ingress:
+  enabled: true
+  installController: false # Usar Traefik do K3s
+  tls:
+    enabled: true
+    certResolver: letsencrypt
+    email: admin@example.com
+
+# Argo Events (Webhooks e CI/CD)
+events:
+  enabled: true
+
+# ApplicationSet (Legado - usar discovery ao invés)
+applicationset:
+  enabled: false
+
+# Storage (MinIO)
+storage:
+  minio:
+    enabled: true
+
+# Configuração do Subchart MinIO (Oficial)
+minio:
+  mode: standalone
+  replicas: 1
+  existingSecret: "minio-creds"
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - minio.example.com
+  consoleIngress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - minio-console.example.com
+  persistence:
+    enabled: true
+    size: 50Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+  buckets:
+    - name: my-org-assets
+      policy: none
+      purge: false
+
+# Ecofuturismo & Observabilidade
+kepler:
+  enabled: true
+  serviceMonitor:
+    enabled: true # Necessário para métricas no Prometheus
+
+# Observabilidade (Datadog ou Prometheus)
+observability:
+  mode: prometheus
+  prometheus:
+    enabled: true # Necessário para Chart.yaml condition
+
+datadog:
+  enabled: false
+  namespace: datadog
+  site: datadoghq.com
+  tags: []
+  secretName: datadog-secret-staging
+  secretKey: api-key
+
+# Headlamp (UI)
+headlamp:
+  enabled: false
+
+system:
+  k3s:
+    upgrade:
+      enabled: true
+    version: "v1.33.6+k3s1"
+    maxPods: 300 # Capacidade máxima de pods por nó

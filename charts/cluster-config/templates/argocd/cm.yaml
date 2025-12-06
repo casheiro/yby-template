@@ -1,0 +1,22 @@
+{{- if .Values.argocd.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: {{ .Values.argocd.namespace }}
+data:
+  url: {{ default (printf "https://%s" .Values.hosts.argocd) .Values.argocd.url | quote }}
+  repositories: |
+{{- range $i, $repo := .Values.argocd.repositories }}
+    - type: {{ $repo.type }}
+      url: {{ $repo.url }}
+      name: {{ $repo.name }}
+{{- else }}
+    - type: git
+      url: {{ .Values.repository.url }}
+      name: yby
+{{- end }}
+  application.instanceLabelKey: argocd.argoproj.io/instance
+  server.insecure: "false"
+  server.enable.grpc.web: "true"
+{{- end }}

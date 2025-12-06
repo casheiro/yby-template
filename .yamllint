@@ -1,0 +1,29 @@
+extends: default
+
+rules:
+  document-start:
+    present: false
+    level: warning
+  line-length:
+    max: 160
+    level: warning
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+  indentation:
+    spaces: consistent
+    indent-sequences: true
+    check-multi-line-strings: false
+  trailing-spaces: enable
+  new-line-at-end-of-file: enable
+  comments-indentation: enable
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+
+ignore: |
+  secrets/sealed-*.yaml
+  **/templates/**
+  local/docker-compose.yaml
+  local/vagrant-config.yml
+  local/k3d-config.yaml
+  argo-applications/kustomization.yaml

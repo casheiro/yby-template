@@ -1,0 +1,128 @@
+#
+# Fonte única de verdade para configurações dinâmicas
+# Somente referências a Secrets/SealedSecrets; nunca coloque segredos aqui
+# Todos os campos possuem defaults seguros para não quebrar ambientes existentes
+#
+
+global:
+  clusterName: "yby"
+  environment: "dev"
+  domainBase: ""  # vazio -> não cria Ingress; usa NodePort/port-forward
+
+repository:
+  url: "https://github.com/seu-usuario/yby"
+  branch: "main"
+  organization: "seu-usuario"
+
+ingress:
+  enabled: false
+  tls:
+    enabled: false
+    certResolver: "letsencrypt"
+    email: ""
+  whitelist:
+    enabled: false
+    sourceRanges: []  # lista de CIDR/IPs permitidos
+
+hosts:
+  argocd: ""
+  traefik: ""
+  webhook: ""
+  minio: ""
+  minioConsole: ""
+
+argocd:
+  enabled: false
+  namespace: "argocd"
+  project: "default"
+  url: ""  # default derivado de hosts.argocd
+  repositories: []  # ex.: [{type: git, url: https://github.com/... , name: app}]
+
+events:
+  enabled: false
+  webhook:
+    port: 12000
+    serviceType: NodePort
+    nodePort: 30012
+  sensor:
+    ref: "refs/heads/main"
+    repoName: "yby"
+
+applicationset:
+  enabled: false
+  namespace: "argocd"
+  organization: ""
+  branch: ""
+  labelMatch: "yby-app"
+  pathsExist: ["k8s"]
+  requeueAfterSeconds: 300
+
+storage:
+  minio:
+    enabled: false
+    namespace: "storage"
+    endpoints:
+      api: ""         # default derivado de hosts.minio
+      console: ""     # default derivado de hosts.minioConsole
+    secretName: "minio-secret"
+    autoBootstrap:
+      enabled: false
+      buckets: []
+
+datadog:
+  enabled: false
+  namespace: "datadog"
+  secretName: "datadog-secret"
+  secretKey: "api-key"
+  site: "datadoghq.com"
+  tags: []
+
+validation:
+  enabled: false  # hooks de validação de referências a Secrets
+
+#
+# Ecofuturismo & Observabilidade
+#
+kepler:
+  enabled: true
+  serviceMonitor:
+    enabled: false # Habilitar se usar Prometheus Operator
+
+keda:
+  enabled: true
+  # Default configuration is sufficient for basic usage
+
+kube-prometheus-stack:
+  crds:
+    enabled: false # CRDs instalados pelo chart 'system'
+  prometheusOperator:
+    enabled: false # Operator instalado pelo chart 'system'
+  grafana:
+    enabled: false # Default Ecofuturista
+
+
+
+observability:
+  mode: "none" # options: none, datadog, prometheus
+
+# Configuração do Subchart MinIO
+minio:
+  mode: standalone
+  replicas: 1
+  existingSecret: "minio-creds" # Criado imperativamente pelo Makefile (bootstrap)
+  ingress:
+    enabled: false
+    ingressClassName: ""
+    hosts: []
+  consoleIngress:
+    enabled: false
+    ingressClassName: ""
+    hosts: []
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+  buckets: []

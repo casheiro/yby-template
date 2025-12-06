@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postsync-validate-minha-app
+  namespace: apps
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: validate
+        image: curlimages/curl:8.8.0
+        command: ["sh","-c"]
+        args:
+        - "set -e; curl -sSf https://${HOST} --max-time 10 -o /dev/null"
+        env:
+        - name: HOST
+          value: app.seu-dominio.com
