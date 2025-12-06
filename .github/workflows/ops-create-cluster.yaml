@@ -97,7 +97,7 @@ jobs:
 
       - name: 🚀 Create Repository
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT_REPO_CREATION }}
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           TEMPLATE_REPO: ${{ github.repository }}
           NEW_REPO: ${{ github.repository_owner }}/${{ steps.vars.outputs.CLUSTER_NAME }}
         run: |
@@ -114,7 +114,7 @@ jobs:
       - name: 🔧 Configure Cluster Values
         working-directory: ./${{ steps.vars.outputs.CLUSTER_NAME }}
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT_REPO_CREATION }}
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
           FILE="config/cluster-values.yaml"
 
