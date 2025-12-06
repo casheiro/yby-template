@@ -7,7 +7,7 @@
 global:
   clusterName: "yby"
   environment: "dev"
-  domainBase: ""  # vazio -> não cria Ingress; usa NodePort/port-forward
+  domainBase: "" # vazio -> não cria Ingress; usa NodePort/port-forward
 
 repository:
   url: "https://github.com/seu-usuario/yby"
@@ -22,7 +22,7 @@ ingress:
     email: ""
   whitelist:
     enabled: false
-    sourceRanges: []  # lista de CIDR/IPs permitidos
+    sourceRanges: [] # lista de CIDR/IPs permitidos
 
 hosts:
   argocd: ""
@@ -35,8 +35,8 @@ argocd:
   enabled: false
   namespace: "argocd"
   project: "default"
-  url: ""  # default derivado de hosts.argocd
-  repositories: []  # ex.: [{type: git, url: https://github.com/... , name: app}]
+  url: "" # default derivado de hosts.argocd
+  repositories: [] # ex.: [{type: git, url: https://github.com/... , name: app}]
 
 events:
   enabled: false
@@ -62,23 +62,15 @@ storage:
     enabled: false
     namespace: "storage"
     endpoints:
-      api: ""         # default derivado de hosts.minio
-      console: ""     # default derivado de hosts.minioConsole
+      api: "" # default derivado de hosts.minio
+      console: "" # default derivado de hosts.minioConsole
     secretName: "minio-secret"
     autoBootstrap:
       enabled: false
       buckets: []
 
-datadog:
-  enabled: false
-  namespace: "datadog"
-  secretName: "datadog-secret"
-  secretKey: "api-key"
-  site: "datadoghq.com"
-  tags: []
-
 validation:
-  enabled: false  # hooks de validação de referências a Secrets
+  enabled: false # hooks de validação de referências a Secrets
 
 #
 # Ecofuturismo & Observabilidade
@@ -100,10 +92,35 @@ kube-prometheus-stack:
   grafana:
     enabled: false # Default Ecofuturista
 
-
-
 observability:
-  mode: "none" # options: none, datadog, prometheus
+  mode: "prometheus" # options: none, prometheus
+
+# Configuração de Segurança
+security:
+  networkPolicy:
+    enabled: false # Habilitar com cuidado após configurar policies de allow
+
+# Configuração do Argo CD (Applications)
+argocd:
+  mode: standalone
+  replicas: 1
+  existingSecret: "minio-creds" # Criado imperativamente pelo Makefile (bootstrap)
+  ingress:
+    enabled: false
+    ingressClassName: ""
+    hosts: []
+  consoleIngress:
+    enabled: false
+    ingressClassName: ""
+    hosts: []
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+  buckets: []
 
 # Configuração do Subchart MinIO
 minio:
