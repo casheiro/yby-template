@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.storage.minio.namespace }}
   annotations:
     {{- if .Values.ingress.tls.enabled }}
-    traefik.ingress.kubernetes.io/router.tls.certresolver: {{ .Values.ingress.tls.certResolver }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.issuer }}
     {{- end }}
     {{- if and .Values.ingress.whitelist.enabled (.Values.ingress.whitelist.sourceRanges) }}
     traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," .Values.ingress.whitelist.sourceRanges | quote }}
@@ -38,7 +38,7 @@ metadata:
   namespace: {{ .Values.storage.minio.namespace }}
   annotations:
     {{- if .Values.ingress.tls.enabled }}
-    traefik.ingress.kubernetes.io/router.tls.certresolver: {{ .Values.ingress.tls.certResolver }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.issuer }}
     {{- end }}
     {{- if and .Values.ingress.whitelist.enabled (.Values.ingress.whitelist.sourceRanges) }}
     traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," .Values.ingress.whitelist.sourceRanges | quote }}

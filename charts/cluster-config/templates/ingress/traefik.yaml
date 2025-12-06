@@ -1,5 +1,5 @@
 {{- if and .Values.ingress.enabled .Values.global.domainBase }}
-{{- $resolver := .Values.ingress.tls.certResolver -}}
+{{- $issuer := .Values.ingress.tls.issuer -}}
 {{- $tlsEnabled := .Values.ingress.tls.enabled -}}
 {{- $whitelist := .Values.ingress.whitelist -}}
 
@@ -10,7 +10,7 @@ metadata:
   namespace: ingress-system
   annotations:
     {{- if $tlsEnabled }}
-    traefik.ingress.kubernetes.io/router.tls.certresolver: {{ $resolver }}
+    cert-manager.io/cluster-issuer: {{ $issuer }}
     {{- end }}
     {{- if and $whitelist.enabled ($whitelist.sourceRanges) }}
     traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," $whitelist.sourceRanges | quote }}
@@ -42,7 +42,7 @@ metadata:
   namespace: argocd
   annotations:
     {{- if $tlsEnabled }}
-    traefik.ingress.kubernetes.io/router.tls.certresolver: {{ $resolver }}
+    cert-manager.io/cluster-issuer: {{ $issuer }}
     {{- end }}
     {{- if and $whitelist.enabled ($whitelist.sourceRanges) }}
     traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," $whitelist.sourceRanges | quote }}
@@ -74,7 +74,7 @@ metadata:
   namespace: argo-events
   annotations:
     {{- if $tlsEnabled }}
-    traefik.ingress.kubernetes.io/router.tls.certresolver: {{ $resolver }}
+    cert-manager.io/cluster-issuer: {{ $issuer }}
     {{- end }}
     {{- if and $whitelist.enabled ($whitelist.sourceRanges) }}
     traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," $whitelist.sourceRanges | quote }}
