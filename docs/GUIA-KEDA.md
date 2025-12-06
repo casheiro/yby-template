@@ -1,16 +1,24 @@
-# ⚡ Guia de Eficiência Energética com KEDA
+# ⚡ Guia do Módulo KEDA
 
-O **KEDA (Kubernetes Event-driven Autoscaling)** é a ferramenta padrão do Yby para gerenciamento eficiente de recursos. Ele substitui o antigo `kube-green` e permite escalar aplicações baseadas em eventos ou agendamentos.
+Este documento explica como utilizar o **KEDA** (Kubernetes Event-driven Autoscaling) no Yby.
 
-## 🎯 Objetivo: Ecofuturismo Prático
+## 1. O que é?
 
-Nossa meta é **reduzir o desperdício**. Ambientes de desenvolvimento e staging não precisam rodar 24/7. O KEDA nos permite desligá-los automaticamente quando não estão em uso.
+O **KEDA** é a ferramenta padrão do Yby para **Ecofuturismo** e gerenciamento eficiente de recursos. Ele permite escalar aplicações baseadas em eventos (como mensagens no Kafka, filas RabbitMQ) ou agendamentos (Cron), indo além do HPA padrão do Kubernetes.
 
----
+## 2. Como funciona?
 
-## 🕒 Padrão 1: Scale-to-Zero (Cron)
+O KEDA funciona estendendo o Kubernetes com um recurso chamado `ScaledObject`.
+1.  Você cria um `ScaledObject` ligando um **Gatilho** (ex: relógio marcando 20h) ao seu **Deployment**.
+2.  O KEDA monitora esse gatilho.
+3.  Quando o evento ocorre (ex: "hora de dormir"), o KEDA desativa o HPA nativo e força o número de réplicas para zero (ou outro valor).
+4.  Quando o evento acaba, ele devolve o controle e escala a aplicação de volta.
 
-Este é o padrão mais comum: desligar aplicações à noite e religá-las pela manhã.
+## 3. Configuração Manual em Aplicações Externas (Scale-to-Zero)
+
+O padrão mais comum é desligar aplicações à noite para economizar recursos (Scale-to-Zero).
+
+### Como aplicar
 
 ### Como aplicar
 
