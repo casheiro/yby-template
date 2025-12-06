@@ -73,7 +73,9 @@ O Yby adota uma estratégia de **Single Source of Truth** (Fonte Única da Verda
         version: "v1.29.3+k3s1"
         maxPods: 250
     ```
-2.  **Opção A (Bootstrap):** Rode `yby bootstrap vps` (o comando lerá o valor do YAML/Env).
+    ```
+2.  **Opção A (Bootstrap - CLI):** Rode `yby bootstrap vps --k3s-version v1.29.3+k3s1`.
+    > **Nota:** A flag da CLI tem prioridade sobre o arquivo YAML.
 3.  **Opção B (Day 2 / GitOps):** Faça Commit e Push. O **System Upgrade Controller** atualizará o cluster automaticamente.
 
 **2. Ajustando Aplicações (Ex: Mudar Domínio)**
