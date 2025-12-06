@@ -37,6 +37,15 @@ prompts:
       file: "config/cluster-values.yaml"
       path: ".ingress.tls.email"
 
+  - id: issuer
+    type: select
+    label: "Tipo de Emissor SSL (Let's Encrypt):"
+    options: ["letsencrypt-prod", "letsencrypt-staging"]
+    default: "letsencrypt-prod"
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".ingress.tls.issuer"
+
   - id: org
     type: input
     label: "Organização GitHub (para Discovery):"

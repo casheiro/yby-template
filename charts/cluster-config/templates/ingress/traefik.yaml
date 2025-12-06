@@ -7,7 +7,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: traefik-dashboard
-  namespace: ingress-system
+  namespace: {{ .Values.namespaces.ingress }}
   annotations:
     {{- if $tlsEnabled }}
     cert-manager.io/cluster-issuer: {{ $issuer }}
@@ -39,7 +39,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argocd-server
-  namespace: argocd
+  namespace: {{ .Values.namespaces.argocd }}
   annotations:
     {{- if $tlsEnabled }}
     cert-manager.io/cluster-issuer: {{ $issuer }}
@@ -71,7 +71,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: git-webhook
-  namespace: argo-events
+  namespace: {{ .Values.namespaces.events }}
   annotations:
     {{- if $tlsEnabled }}
     cert-manager.io/cluster-issuer: {{ $issuer }}

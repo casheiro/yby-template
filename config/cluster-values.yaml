@@ -12,6 +12,12 @@ server:
   extraArgs:
     - --insecure
 
+# Definição de Namespaces do Sistema
+namespaces:
+  argocd: argocd
+  ingress: ingress-system
+  events: argo-events
+
 global:
   # Ambiente (dev, staging, prod)
   environment: dev
