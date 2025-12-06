@@ -32,7 +32,7 @@ O assistente interativo perguntará:
 Isso gerará o arquivo `config/cluster-values.yaml` com todas as suas preferências.
 
 ### Segredos (`.env`)
-Crie um arquivo `.env` na raiz (não versionado) para segredos de infraestrutura:
+Crie um arquivo `.env` na raiz (não versionado) para segredos de infraestrutura:  
 
 ```bash
 VPS_HOST=1.2.3.4
