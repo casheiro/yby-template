@@ -103,8 +103,12 @@ kubectl -n monitoring port-forward svc/kube-prometheus-stack-grafana 3000:80
 
 ## 🛠️ 4. Validação
 
-### O que a CLI faz (`yby validate`)
-Executa lints e prevê o template gerado.
+### O que a CLI faz
+- **`yby init`**: Inicializa um novo projeto.
+  - Lê o arquivo `.yby/blueprint.yaml`.
+  - Guia o usuário via prompts interativos para configurar repositório, domínio, **segurança (whitelist)** e módulos opcionais.
+  - Gera o arquivo `config/cluster-values.yaml`.
+  - Configura o contexto local (`.env.<env>`).
 
 ### Equivalente Manual
 

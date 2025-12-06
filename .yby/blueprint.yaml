@@ -54,6 +54,29 @@ prompts:
       file: "config/cluster-values.yaml"
       path: ".global.environment"
 
+  - id: enableWhitelist
+    type: select
+    label: "Habilitar Whitelist de IP para serviços internos?"
+    options: ["Não", "Sim"]
+    default: "Não"
+    actions:
+      - condition: "Sim"
+        target:
+          file: "config/cluster-values.yaml"
+          path: ".ingress.whitelist.enabled"
+          value: true
+
+  - id: whitelistIPs
+    type: list
+    label: "IPs/CIDRs permitidos (ex: 1.2.3.4, 10.0.0.0/8)"
+    required: true # Agora pode ser required pois só aparece se Sim
+    when:
+      promptId: enableWhitelist
+      value: "Sim"
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".ingress.whitelist.sourceRanges"
+
   - id: modules
     type: multiselect
     label: "Módulos Opcionais:"

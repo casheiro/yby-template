@@ -51,6 +51,33 @@ Sistema de eventos para CI/CD e webhooks do GitHub.
 
 ### Ingress & TLS
 
+## 🔒 Segurança & Whitelisting
+
+Por padrão, serviços internos sensíveis (ArgoCD, Grafana, Traefik Dashboard, MinIO Console) **não são expostos publicamente** ou são expostos sem restrição de IP (se o Ingress for habilitado manualmente).
+
+O `yby` permite configurar uma **Whitelist de IPs** global. Quando habilitada, apenas os IPs/CIDRs listados podem acessar esses serviços.
+
+### Configuração via `values.yaml`
+
+No arquivo `config/cluster-values.yaml`:
+
+```yaml
+ingress:
+  whitelist:
+    enabled: true             # Ativa a proteção
+    sourceRanges:             # Lista de IPs permitidos
+      - 203.0.113.10/32       # IP do escritório
+      - 198.51.100.0/24       # VPN corporativa
+```
+
+> **Dica:** Durante o `yby init`, você será questionado se deseja habilitar essa proteção e quais IPs permitir.
+
+### Serviços Protegidos
+- **ArgoCD Server**: Interface web do GitOps.
+- **Grafana**: Dashboards de observabilidade.
+- **Traefik Dashboard**: Painel de controle do Ingress Controller.
+- **MinIO & Console**: Interface de gestão de objetos (S3).
+
 ### Segurança
 - `security.networkPolicy.enabled`: Ativa bloqueio de tráfego inter-namespace por padrão (Zero Trust).
 - `ingress.tls.enabled`: Ativa Cert-Manager (LetsEncrypt) **(por padrão está `false`)**
