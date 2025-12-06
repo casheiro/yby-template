@@ -151,6 +151,9 @@ O Yby agora opera com um **Blueprint Engine**. Quando você roda `yby init`, a C
 
 A **Yby CLI** é a interface padrão do projeto.
 
+> 🔓 **Zero Lock-in:** Prefere usar ferramentas nativas (`kubectl`, `helm`)? 
+> Consulte o [Guia de Operação Manual (Zero Lock-in)](docs/MANUAL-REFERENCE.md).
+
 ## 💻 Desenvolvimento Local
 
 Suba um ambiente completo (Cluster + Argo CD + Apps) na sua máquina em minutos:
