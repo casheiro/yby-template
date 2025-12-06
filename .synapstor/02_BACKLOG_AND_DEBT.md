@@ -1,13 +1,11 @@
-# Backlog e Dívida Técnica
+# Backlog & Dívida Técnica
 
-## Backlog Macro (Épicos)
-- [ ] **Estabilização de Webhooks:** Garantir que o fluxo Git -> Argo Events -> Workflow seja 100% confiável.
-- [ ] **Refinamento de Conceitos:** Revisar implementações antigas à luz dos novos princípios (Arquiteto).
-- [ ] **Expansão de Observabilidade:** Dashboards mais detalhados no Datadog/Grafana.
+Este documento rastreia itens de trabalho futuro e débitos técnicos identificados pela IA.
 
-## Dívida Técnica (Identificada)
-- [ ] **Conceitos de Implementação:** O usuário reportou "problemas de conceito" em implementações antigas. Necessário mapear e refatorar.
-- [ ] **Documentação Dispersa:** Centralizar conhecimento nas UKIs.
+## Backlog
+- [ ] **Configurar Secrets:** Adicione seus segredos (GitHub Token, etc) usando Sealed Secrets.
+- [ ] **Personalizar Domínio:** Ajuste o `domainBase` em `config/cluster-values.yaml`.
+- [ ] **Adicionar Aplicações:** Crie repositórios com a pasta `infra/` para deploying automático.
 
-## Dívida de Processo
-- [ ] **Falta de UKIs:** Ainda não temos UKIs formais para padrões de código e arquitetura.
+## Dívida Técnica
+*(Nenhum item identificado no momento)*
