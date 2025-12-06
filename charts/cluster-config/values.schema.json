@@ -4,9 +4,7 @@
   "description": "Configuration schema for Yby Clusters",
   "type": "object",
   "required": [
-    "global",
-    "git",
-    "discovery"
+    "global"
   ],
   "properties": {
     "global": {

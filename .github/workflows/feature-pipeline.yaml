@@ -25,7 +25,9 @@ jobs:
 
       - name: 🧪 Run Validation
         run: |
+          helm dependency update charts/bootstrap
           helm lint charts/bootstrap
+          helm dependency update charts/cluster-config
           helm lint charts/cluster-config
 
   create-pr-to-develop:
