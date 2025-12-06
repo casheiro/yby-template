@@ -1,114 +1,51 @@
 # ==============================================
-# Yby - Configuração Centralizada
+# Yby - Configuração do Cluster
 # ==============================================
 
-# Configurações Globais
+# Configuração do Argo CD (Bootstrap)
+# Estas chaves são usadas quando passamos este arquivo para o chart 'argo/argo-cd'
+server:
+  service:
+    type: ClusterIP
+  # Modo inseguro para acesso simples via port-forward
+  insecure: true
+  extraArgs:
+    - --insecure
+
 global:
+  # Ambiente (dev, staging, prod)
   environment: dev
+  # Domínio base para Ingresses (ex: cluster.example.com)
   domainBase: "example.com"
 
-# Repositório Git do Cluster
 git:
-  repoURL: https://github.com/my-user/yby-template
-  targetRevision: main
+  # Repositório de origem deste template (será substituído pelo seu)
+  repoURL: https://github.com/casheiro/yby-template
   branch: main
   repoName: yby
 
-# Argo CD
-project: default
-argocd:
-  namespace: argocd
-  destinationServer: https://kubernetes.default.svc
-  enabled: true
-  url: https://argocd.example.com
-  server:
-    insecure: true
-
-# Descoberta Automática de Aplicações (Zero-Touch)
+# Descoberta Automática de Aplicações
 discovery:
   enabled: true
-  scmProvider: github
   organization: my-org
   topic: my-org-app
+  # Secret name para token do GitHub (não altere a menos que saiba o que está fazendo)
   tokenSecretName: github-token
-  tokenSecretKey: token
 
-# Ingress e TLS
 ingress:
   enabled: true
-  installController: false # Usar Traefik do K3s
   tls:
-    enabled: true
-    certResolver: letsencrypt
+    # Email para Let's Encrypt (Certificados HTTPS automáticos)
     email: admin@example.com
 
-# Argo Events (Webhooks e CI/CD)
-events:
-  enabled: true
-
-# ApplicationSet (Legado - usar discovery ao invés)
-applicationset:
-  enabled: false
-
-# Storage (MinIO)
-storage:
-  minio:
-    enabled: true
-
-# Configuração do Subchart MinIO (Oficial)
-minio:
-  mode: standalone
-  replicas: 1
-  existingSecret: "minio-creds"
-  ingress:
-    enabled: true
-    ingressClassName: traefik
-    hosts:
-      - minio.example.com
-  consoleIngress:
-    enabled: true
-    ingressClassName: traefik
-    hosts:
-      - minio-console.example.com
-  persistence:
-    enabled: true
-    size: 50Gi
-  resources:
-    requests:
-      memory: 256Mi
-      cpu: 100m
-  buckets:
-    - name: my-org-assets
-      policy: none
-      purge: false
-
-# Ecofuturismo & Observabilidade
-kepler:
-  enabled: true
-  serviceMonitor:
-    enabled: true # Necessário para métricas no Prometheus
-
-# Observabilidade (Datadog ou Prometheus)
+# Stack de Observabilidade (Prometheus + Grafana + Kepler)
 observability:
   mode: prometheus
-  prometheus:
-    enabled: true # Necessário para Chart.yaml condition
 
-datadog:
-  enabled: false
-  namespace: datadog
-  site: datadoghq.com
-  tags: []
-  secretName: datadog-secret-staging
-  secretKey: api-key
+kepler:
+  enabled: true
 
-# Headlamp (UI)
-headlamp:
-  enabled: false
-
-system:
-  k3s:
-    upgrade:
-      enabled: true
-    version: "v1.33.6+k3s1"
-    maxPods: 300 # Capacidade máxima de pods por nó
+# Armazenamento de Objetos (MinIO)
+storage:
+  minio:
+    enabled: false

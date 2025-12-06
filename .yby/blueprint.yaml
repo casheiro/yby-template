@@ -1,0 +1,67 @@
+apiVersion: yby/v1alpha1
+kind: Blueprint
+metadata:
+  name: standard-init
+  description: "Standard Yby Cluster Initialization"
+
+prompts:
+  - id: gitRepo
+    type: input
+    label: "URL do Repositório Git (seu fork):"
+    default: "https://github.com/seu-usuario/yby-template"
+    required: true
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".git.repoURL"
+
+  - id: domain
+    type: input
+    label: "Domínio Base do Cluster (ex: cluster.com):"
+    default: "yby.local"
+    required: true
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".global.domainBase"
+
+  - id: email
+    type: input
+    label: "Email para Let's Encrypt:"
+    default: "admin@yby.local"
+    required: true
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".ingress.tls.email"
+
+  - id: org
+    type: input
+    label: "Organização GitHub (para Discovery):"
+    default: "casheiro"
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".discovery.organization"
+
+  - id: environment
+    type: select
+    label: "Ambiente:"
+    options: ["dev", "staging", "prod"]
+    default: "dev"
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".global.environment"
+
+  - id: modules
+    type: multiselect
+    label: "Módulos Opcionais:"
+    options: ["Kepler", "MinIO"]
+    default: ["Kepler"]
+    actions:
+      - condition: "Kepler"
+        target:
+          file: "config/cluster-values.yaml"
+          path: ".kepler.enabled"
+          value: true
+      - condition: "MinIO"
+        target:
+          file: "config/cluster-values.yaml"
+          path: ".storage.minio.enabled"
+          value: true

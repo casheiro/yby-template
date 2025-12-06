@@ -280,3 +280,7 @@ test-file.tmp
 /REPORTS//cli/yby
 
 **/yby
+
+# Yby Local State (ignore everything except blueprint)
+.yby/*
+!.yby/blueprint.yaml
