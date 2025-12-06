@@ -4,9 +4,7 @@
   "description": "Configuration schema for Yby Clusters",
   "type": "object",
   "required": [
-    "global",
-    "git",
-    "discovery"
+    "global"
   ],
   "properties": {
     "global": {
@@ -27,7 +25,14 @@
         },
         "domainBase": {
           "type": "string",
-          "pattern": "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$",
+          "anyOf": [
+            {
+              "maxLength": 0
+            },
+            {
+              "pattern": "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$"
+            }
+          ],
           "description": "Base domain for the cluster (e.g., yby.example.com)"
         }
       }
@@ -87,7 +92,14 @@
           "properties": {
             "email": {
               "type": "string",
-              "format": "email"
+              "anyOf": [
+                {
+                  "maxLength": 0
+                },
+                {
+                  "format": "email"
+                }
+              ]
             }
           }
         }
