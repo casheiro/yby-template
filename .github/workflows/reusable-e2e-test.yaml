@@ -19,7 +19,7 @@ jobs:
 
       - name: ⬇️ Download Yby CLI
         run: |
-          gh release download --repo casheiro/yby --pattern 'yby_linux_amd64' --output yby
+          gh release download --repo casheiro/yby-cli --pattern 'yby_linux_amd64' --output yby
           chmod +x yby
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
