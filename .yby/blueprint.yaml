@@ -19,6 +19,14 @@ prompts:
       file: "config/cluster-values.yaml"
       path: ".git.repoURL"
 
+  - id: k3sVersion
+    type: input
+    label: "Versão do K3s (Default: Stable):"
+    default: "v1.31.2+k3s1"
+    target:
+      file: "config/cluster-values.yaml"
+      path: ".system.k3s.version"
+
   - id: domain
     type: input
     label: "Domínio Base do Cluster (ex: cluster.com):"
