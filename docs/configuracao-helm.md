@@ -9,6 +9,17 @@ Este documento descreve todas as opções configuráveis do arquivo `config/clus
 | Chave | Valor Padrão | Descrição |
 |-------|--------------|-----------|
 | `global.environment` | `staging` | Ambiente (`dev`, `staging`, `prod`) |
+| `namespaces.argocd` | `argocd` | Namespace de instalação do Argo CD |
+| `namespaces.ingress` | `ingress-system` | Namespace do Traefik/Cert-Manager |
+| `namespaces.events` | `argo-events` | Namespace do Argo Events |
+
+### Filosofia: Bootstrap Simplificado vs Customização Total
+
+A ferramenta de linha de comando (`yby init`) tem como objetivo remover fricção e garantir que você tenha um cluster funcional em minutos, seguindo convenções seguras e escaláveis.
+
+No entanto, o projeto Yby foi desenhado para ser totalmente extensível. O arquivo `config/cluster-values.yaml` é a **fonte da verdade**. Configurações que não são perguntadas pela CLI (como namespaces personalizados ou emissores SSL específicos) podem e devem ser ajustadas diretamente neste arquivo se você tiver requisitos avançados.
+
+`yby init` é apenas um facilitador; o gitops é o dono final do estado.
 | `global.domainBase` | `""` | Domínio base (ex: `yby.dev.br`). Se vazio, Ingress é desabilitado |
 | `git.repoURL` | `https://github.com/my-user/yby-template` | URL do repositório do cluster |
 | `git.branch` | `main` | Branch principal |
@@ -24,6 +35,7 @@ Este documento descreve todas as opções configuráveis do arquivo `config/clus
 | `ingress.enabled` | `true` | Ativa Traefik Dashboard e IngressRoutes |
 | `ingress.tls.enabled` | `false` | Ativa Cert-Manager (LetsEncrypt) |
 | `ingress.tls.email` | `contato@yby.dev.br` | Email para registro no LetsEncrypt |
+| `ingress.tls.issuer` | `letsencrypt-prod` | Tipo de emissor (`letsencrypt-prod` ou `letsencrypt-staging`) |
 | `security.networkPolicy.enabled` | `false` | Ativa NetworkPolicies (Default Deny) |
 | `storage.minio.enabled` | `false` | Ativa MinIO para armazenamento de artefatos |
 | `kepler.enabled` | `true` | Ativa coleta de métricas de energia (Ecofuturismo) |
