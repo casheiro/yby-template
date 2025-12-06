@@ -14,7 +14,12 @@ Este é o padrão mais comum: desligar aplicações à noite e religá-las pela 
 
 ### Como aplicar
 
-Adicione um `ScaledObject` junto com o seu `Deployment` na pasta `infra/` da sua aplicação.
+Você pode gerar este arquivo automaticamente usando a CLI:
+```bash
+yby generate keda --name scale-to-zero --deployment minha-app --namespace apps --schedule "0 20 * * *"
+```
+
+Ou criar manualmente um `ScaledObject` junto com o seu `Deployment` na pasta `infra/` da sua aplicação.
 
 ```yaml
 apiVersion: keda.sh/v1alpha1

@@ -80,7 +80,7 @@ prompts:
   - id: modules
     type: multiselect
     label: "Módulos Opcionais:"
-    options: ["Kepler", "MinIO"]
+    options: ["Kepler", "MinIO", "KEDA"]
     default: ["Kepler"]
     actions:
       - condition: "Kepler"
@@ -92,4 +92,9 @@ prompts:
         target:
           file: "config/cluster-values.yaml"
           path: ".storage.minio.enabled"
+          value: true
+      - condition: "KEDA"
+        target:
+          file: "config/cluster-values.yaml"
+          path: ".keda.enabled"
           value: true
