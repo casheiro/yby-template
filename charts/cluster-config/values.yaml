@@ -22,11 +22,12 @@ ingress:
     email: ""
   whitelist:
     enabled: false
-    sourceRanges: [] # lista de CIDR/IPs permitidos
+    sourceRanges: [] # lista de CIDR/IPs permitidos. SE HABILITADO, aplica-se a TODOS os ingresses (ArgoCD, MinIO, Grafana, Traefik, etc)
 
 hosts:
   argocd: ""
   traefik: ""
+  grafana: ""
   webhook: ""
   minio: ""
   minioConsole: ""

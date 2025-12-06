@@ -44,6 +44,9 @@ metadata:
     {{- if $tlsEnabled }}
     traefik.ingress.kubernetes.io/router.tls.certresolver: {{ $resolver }}
     {{- end }}
+    {{- if and $whitelist.enabled ($whitelist.sourceRanges) }}
+    traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," $whitelist.sourceRanges | quote }}
+    {{- end }}
 spec:
   ingressClassName: traefik
   {{- if $tlsEnabled }}
@@ -72,6 +75,9 @@ metadata:
   annotations:
     {{- if $tlsEnabled }}
     traefik.ingress.kubernetes.io/router.tls.certresolver: {{ $resolver }}
+    {{- end }}
+    {{- if and $whitelist.enabled ($whitelist.sourceRanges) }}
+    traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," $whitelist.sourceRanges | quote }}
     {{- end }}
 spec:
   ingressClassName: traefik

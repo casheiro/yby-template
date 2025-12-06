@@ -8,6 +8,9 @@ metadata:
     {{- if .Values.ingress.tls.enabled }}
     traefik.ingress.kubernetes.io/router.tls.certresolver: {{ .Values.ingress.tls.certResolver }}
     {{- end }}
+    {{- if and .Values.ingress.whitelist.enabled (.Values.ingress.whitelist.sourceRanges) }}
+    traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," .Values.ingress.whitelist.sourceRanges | quote }}
+    {{- end }}
 spec:
   ingressClassName: traefik
   {{- if .Values.ingress.tls.enabled }}
@@ -36,6 +39,9 @@ metadata:
   annotations:
     {{- if .Values.ingress.tls.enabled }}
     traefik.ingress.kubernetes.io/router.tls.certresolver: {{ .Values.ingress.tls.certResolver }}
+    {{- end }}
+    {{- if and .Values.ingress.whitelist.enabled (.Values.ingress.whitelist.sourceRanges) }}
+    traefik.ingress.kubernetes.io/ipwhitelist-sourceRange: {{ join "," .Values.ingress.whitelist.sourceRanges | quote }}
     {{- end }}
 spec:
   ingressClassName: traefik
