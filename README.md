@@ -138,6 +138,15 @@ yby doctor
 
 ---
 
+---
+
+## 🛠️ Uso Agente & Smart Init
+
+O Yby agora opera com um **Blueprint Engine**. Quando você roda `yby init`, a CLI lê o arquivo `.yby/blueprint.yaml` deste repositório para entender quais perguntas fazer e como configurar o cluster.
+
+1.  **Edite o Blueprint (`.yby/blueprint.yaml`)**: Defina versões do ArgoCD e perguntas de setup.
+2.  **Rode o Init**: A CLI se adapta automaticamente ao blueprint.
+
 ## 🛠️ Uso com Yby CLI (Recomendado)
 
 A **Yby CLI** é a interface padrão do projeto.
@@ -211,12 +220,13 @@ Para transformar um VPS zerado em um cluster de produção:
 
 ├── charts/
 │   ├── bootstrap/       # Chart inicial (App of Apps, Argo configs)
-│   └── cluster-config/  # Configurações do cluster (Ingress, Storage, etc)
+│   └── cluster-config/  # Configurações do cluster e CRDs (System)
 ├── config/
-│   └── cluster-values.yaml  # ⚡ ÚNICO ARQUIVO DE CONFIGURAÇÃO
+│   └── cluster-values.yaml  # ⚡ ÚNICO ARQUIVO DE CONFIGURAÇÃO (Com Schema JSON)
+├── .yby/
+│   └── blueprint.yaml   # 🏗️ Definição do Smart Init e Versões de Infra
 ├── docs/                # Documentação detalhada
 ├── manifests/           # Manifestos upstream (vendored)
-├── setup/               # Scripts de bootstrap (VPS)
 └── workflows/           # Templates de CI/CD (Argo Workflows)
 ```
 

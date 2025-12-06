@@ -100,28 +100,6 @@ security:
   networkPolicy:
     enabled: false # Habilitar com cuidado após configurar policies de allow
 
-# Configuração do Argo CD (Applications)
-argocd:
-  mode: standalone
-  replicas: 1
-  existingSecret: "minio-creds" # Criado imperativamente pelo Makefile (bootstrap)
-  ingress:
-    enabled: false
-    ingressClassName: ""
-    hosts: []
-  consoleIngress:
-    enabled: false
-    ingressClassName: ""
-    hosts: []
-  persistence:
-    enabled: true
-    size: 10Gi
-  resources:
-    requests:
-      memory: 256Mi
-      cpu: 100m
-  buckets: []
-
 # Configuração do Subchart MinIO
 minio:
   mode: standalone

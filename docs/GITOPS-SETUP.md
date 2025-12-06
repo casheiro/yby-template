@@ -55,11 +55,8 @@ Agora que a configuração e os segredos estão prontos, instale a stack GitOps.
 
 ### Opção A: Script Automático (Recomendado)
 ```bash
-# Para Produção
-./scripts/bootstrap-cluster.sh prod
-
-# Para Desenvolvimento (Local)
-yby dev
+# Para instalar toda a stack GitOps:
+yby bootstrap cluster
 ```
 
 ### Opção B: Manual (Helm Puro)

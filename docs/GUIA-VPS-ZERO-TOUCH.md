@@ -16,7 +16,8 @@ Este guia descreve o processo passo-a-passo para transformar um servidor VPS "cr
 
 3.  **Ambiente Local**:
     *   Linux ou macOS (WSL2 no Windows).
-    *   Ferramentas instaladas: `make`, `kubectl`, `helm`.
+    *   Ferramentas instaladas: `kubectl`, `helm`.
+    *   **Yby CLI**: Instale a CLI antes de prosseguir.
     *   *Nota: O comando de provisionamento executará o setup local automaticamente.*
 
 ---
@@ -90,13 +91,13 @@ Este comando executa todo o ciclo de vida de provisionamento e configuração em
 
 Execute:
 ```bash
-make install
+yby bootstrap vps --install
+# ou simplesmente
+yby install
 ```
 
-> **Nota:** Se você habilitou o MinIO, o script solicitará a senha de root (ou lerá de `MINIO_ROOT_PASSWORD` no `.env`) para gerar o SealedSecret.
-> **IMPORTANTE:** Após a instalação, você deve **commitar** os arquivos `sealed-secret.yaml` gerados no Git para que o GitOps funcione corretamente.
-
-> **Nota:** O processo pode levar alguns minutos. O script exibirá logs detalhados de cada etapa.
+> **Nota:** Se você habilitou o MinIO, o script solicitará a senha de root.
+> **IMPORTANTE:** O processo é automático.
 
 ---
 
@@ -105,7 +106,8 @@ make install
 Ao final da instalação, o comando exibirá as informações necessárias para configurar o Webhook no GitHub. Se precisar ver novamente, execute:
 
 ```bash
-make webhook-info
+```bash
+yby webhook show
 ```
 
 1.  Vá no seu repositório GitHub -> **Settings** -> **Webhooks** -> **Add webhook**.
@@ -124,7 +126,8 @@ Agora seu cluster está rodando e se auto-gerenciando via Git.
 Para acessar os painéis de controle (Argo CD, Headlamp, Grafana) de forma segura (via Port-Forward), execute:
 
 ```bash
-make access
+```bash
+yby access
 ```
 
 Este comando irá:

@@ -43,14 +43,13 @@ Este guia detalha o processo completo de configuração e deploy do **Yby** em a
 # Crie um Personal Access Token no GitHub com escopo 'repo'
 # https://github.com/settings/tokens
 
-# Use o script helper
-./scripts/create-github-token-secret.sh SEU_TOKEN_AQUI
+```bash
+# Crie um Personal Access Token no GitHub com escopo 'repo'
+# https://github.com/settings/tokens
 
-# Ou manualmente:
-kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-kubectl create secret generic github-token \
-  --from-literal=token=ghp_SEU_TOKEN \
-  -n argocd
+# Use a CLI para configurar automaticamente
+yby setup
+# (A CLI pedirá o token durante o processo de init ou bootstrap)
 ```
 
 ### 2.2 Sealed Secrets (Recomendado)
@@ -137,31 +136,6 @@ kubectl logs -n cert-manager -l app=cert-manager
 
 ## 📊 4. Observabilidade
 
-### 4.1 Opção A: Datadog
-
-```bash
-# Criar secret com API Key
-kubectl create secret generic datadog-secret \
-  --from-literal=api-key=SEU_API_KEY_DATADOG \
-  -n datadog --dry-run=client -o yaml | \
-  kubeseal -o yaml > charts/cluster-config/templates/datadog-secret.yaml
-
-# Habilitar no cluster-values.yaml
-# datadog:
-#   enabled: true
-#   secretName: datadog-secret
-#   site: datadoghq.com
-#   tags:
-#     - env:production
-#     - cluster:yby-prod
-```
-
-### 4.2 Opção B: Prometheus + Grafana (Open Source)
-
-```bash
-# Instalar kube-prometheus-stack
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
 
 helm install kube-prometheus prometheus-community/kube-prometheus-stack \
   --namespace monitoring \
@@ -241,37 +215,19 @@ sudo systemctl start k3s
 
 ### 6.1 NetworkPolicy (Isolar Namespaces)
 
+### 6.1 NetworkPolicy (Default Deny)
+
+O Yby já inclui um template de "Default Deny" que pode ser habilitado via configuração:
+
+**No `config/cluster-values.yaml`:**
 ```yaml
-# manifests/security/default-deny-all.yaml
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: default-deny-all
-  namespace: apps
-spec:
-  podSelector: {}
-  policyTypes:
-  - Ingress
-  - Egress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-dns
-  namespace: apps
-spec:
-  podSelector: {}
-  policyTypes:
-  - Egress
-  egress:
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          name: kube-system
-    ports:
-    - protocol: UDP
-      port: 53
+security:
+  networkPolicy:
+    enabled: true
 ```
+
+Isso bloqueará todo tráfego de entrada (Ingress) nos namespaces gerenciados, exigindo policies explícitas de liberação (Allow).
+
 
 ### 6.2 Whitelist de IPs (Traefik)
 
@@ -386,15 +342,8 @@ helm template bootstrap charts/bootstrap -f config/cluster-values.yaml | kubectl
 ### 8.2 Executar Bootstrap
 
 ```bash
-# Produção (VPS remoto)
-./scripts/bootstrap-cluster.sh prod
-
-# Ou manualmente
-helm upgrade --install bootstrap charts/bootstrap \
-  -f config/cluster-values.yaml \
-  --namespace argocd \
-  --create-namespace \
-  --wait
+# Produção (Com a CLI)
+yby bootstrap cluster
 ```
 
 ### 8.3 Verificar Status

@@ -1,10 +1,13 @@
-# Design de Solução: Yby CLI & Template Evolution
+# Arquitetura da Solução: Yby CLI & Template
 
 ## 1. Visão do Produto
 Transformar o **Yby** de apenas um "repositório de infraestrutura" para uma **Plataforma de Engenharia** completa, composta por dois pilares:
 
 1.  **Yby Template:** O repositório GitOps (estado atual), purificado para ser agnóstico e clonável.
-2.  **Yby CLI:** Uma ferramenta de linha de comando (Go) que acelera a adoção, validação e operação do template, sem criar dependência (lock-in).
+2.  **Yby CLI:** O orquestrador que lê o template e executa a automação.
+3.  **Blueprint Engine:** O cérebro da CLI. Um arquivo `.yby/blueprint.yaml` no template dita como a CLI deve se comportar.
+
+## 2. Filosofia "Zero Lock-in"
 
 ## 2. Filosofia "Zero Lock-in"
 A CLI deve funcionar como um **facilitador**, não um **requisito**.
@@ -27,7 +30,14 @@ A CLI deve funcionar como um **facilitador**, não um **requisito**.
 | `yby access` | Abre túneis para Dashboards (Argo, Grafana) | `kubectl port-forward ...` |
 | `yby app create` | Scaffold de nova aplicação (Zero-Touch) | `mkdir k8s && touch deployment.yaml` |
 
-## 4. Estratégia de Migração
+### Smart Init (Blueprint Engine)
+A `yby init` não é hardcoded. Ela:
+1.  Lê o `.yby/blueprint.yaml` do diretório atual.
+2.  Constrói perguntas (`prompts`) dinamicamente.
+3.  Aplica as respostas via **Patch YAML** no `config/cluster-values.yaml`.
+4.  Além disso, o blueprint define versões de infraestrutura (ex: ArgoCD), desacoplando o binário da configuração.
+
+## 4. Estratégia de Migração (Concluída)
 
 ### Fase 1: Design & MVP (Atual)
 - Definir escopo (este documento).

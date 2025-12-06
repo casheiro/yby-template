@@ -51,7 +51,9 @@ yby secret webhook github
 
 1.  Vá ao seu repositório no GitHub.
 2.  Clique em **Settings** > **Webhooks** > **Add webhook**.
-3.  Preencha os campos com os dados do `make webhook-info`:
+3.  Preencha os campos com os dados do ```bash
+yby webhook show
+```:
     *   **Payload URL**: `http://SEU_IP_VPS:30012/github`
     *   **Content type**: `application/json`
     *   **Secret**: (Cole o segredo gerado)

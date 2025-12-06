@@ -24,12 +24,11 @@ Este documento descreve todas as opções configuráveis do arquivo `config/clus
 | `ingress.enabled` | `true` | Ativa Traefik Dashboard e IngressRoutes |
 | `ingress.tls.enabled` | `false` | Ativa Cert-Manager (LetsEncrypt) |
 | `ingress.tls.email` | `contato@yby.dev.br` | Email para registro no LetsEncrypt |
-| `datadog.enabled` | `false` | Ativa agente Datadog |
-| `datadog.secretName` | `datadog-secret-staging` | Nome do SealedSecret com a API Key |
+| `security.networkPolicy.enabled` | `false` | Ativa NetworkPolicies (Default Deny) |
 | `storage.minio.enabled` | `false` | Ativa MinIO para armazenamento de artefatos |
 | `kepler.enabled` | `true` | Ativa coleta de métricas de energia (Ecofuturismo) |
 | `keda.enabled` | `true` | Ativa desligamento automático de recursos (Scale-to-Zero) |
-| `observability.mode` | `none` | `none`, `datadog` ou `prometheus` (Local) |
+| `observability.mode` | `prometheus` | `none` ou `prometheus` (Stack Oficial) |
 
 ### Detalhamento por Seção
 
@@ -52,7 +51,8 @@ Sistema de eventos para CI/CD e webhooks do GitHub.
 
 ### Ingress & TLS
 
-- `ingress.enabled`: Ativa Traefik Dashboard e IngressRoutes
+### Segurança
+- `security.networkPolicy.enabled`: Ativa bloqueio de tráfego inter-namespace por padrão (Zero Trust).
 - `ingress.tls.enabled`: Ativa Cert-Manager (LetsEncrypt) **(por padrão está `false`)**
 - `ingress.tls.email`: Email para registro no LetsEncrypt
 
@@ -67,8 +67,7 @@ Sistema de eventos para CI/CD e webhooks do GitHub.
 - `keda.enabled`: Instala CRDs para desligamento automático (Default: `true`).
 - `observability.mode`:
     - `none`: Apenas coleta (Kepler), sem persistência (Recomendado para Prod).
-    - `prometheus`: Instala Prometheus+Grafana no cluster (Recomendado para Local/Dev).
-    - `datadog`: Usa agente Datadog externo.
+    - `prometheus`: Instala Prometheus+Grafana no cluster.
 
 ## Validação
 Para validar se sua configuração está correta antes de aplicar:
