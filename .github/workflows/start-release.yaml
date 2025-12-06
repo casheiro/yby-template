@@ -20,13 +20,13 @@ jobs:
       - name: 📥 Checkout develop
         uses: actions/checkout@v4
         with:
-          ref: 'develop'
+          ref: "develop"
           fetch-depth: 0 # Need full history to calculate version
 
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: 📦 Install Dependencies
         run: npm install conventional-recommended-bump semver conventional-changelog-conventionalcommits
@@ -36,7 +36,7 @@ jobs:
         run: |
           LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v0.0.0")
           BUMP=$(npx conventional-recommended-bump --preset=conventionalcommits)
-          
+
           if [ -z "$BUMP" ]; then
             echo "No version bump recommended based on new commits. Nothing to release."
             echo "continue=false" >> $GITHUB_OUTPUT
@@ -52,11 +52,11 @@ jobs:
         if: steps.versioning.outputs.continue == 'true'
         id: create_release_pr
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT_REPO_CREATION }}
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           RELEASE_VERSION: ${{ steps.versioning.outputs.release_version }}
         run: |
           RELEASE_BRANCH="release/$RELEASE_VERSION"
-          
+
           echo "Verificando se a branch '$RELEASE_BRANCH' já existe no remote..."
           if git ls-remote --exit-code --heads origin "$RELEASE_BRANCH"; then
             echo "✅ A branch de release '$RELEASE_BRANCH' já existe. O PR correspondente será atualizado automaticamente pelo GitHub com os novos commits."
@@ -66,7 +66,7 @@ jobs:
           echo "Criando a branch de release '$RELEASE_BRANCH' a partir da 'main'..."
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           # Create the new release branch from the HEAD of the remote main branch
           git checkout -b "$RELEASE_BRANCH" origin/main
           git push origin "$RELEASE_BRANCH"
@@ -78,13 +78,12 @@ jobs:
             --base "$RELEASE_BRANCH" \
             --title "chore: Stage changes for Release $RELEASE_VERSION" \
             --body "Este PR prepara as mudanças da 'develop' para a release **$RELEASE_VERSION**. O merge deste PR irá disparar a automação final da release (criação de tag, Release do GitHub, e PR para a main).")
-          
+
           echo "Staging PR criado: $PR_URL"
-          
+
           # Post a comment on the original commit on develop that triggered this workflow
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/commits/${{ github.event.pull_request.merge_commit_sha }}/comments \
             -f body="✅ Este merge iniciou ou atualizou o processo da release **$RELEASE_VERSION**. O PR de preparação para esta release é: $PR_URL"
-
