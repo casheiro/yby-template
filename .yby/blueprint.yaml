@@ -54,10 +54,19 @@ prompts:
       file: "config/cluster-values.yaml"
       path: ".ingress.tls.issuer"
 
+  - id: enableDiscovery
+    type: select
+    label: "Habilitar GitHub Discovery (Sincronizar Apps via Org)?"
+    options: ["Não", "Sim"]
+    default: "Não"
+
   - id: org
     type: input
-    label: "Organização GitHub (para Discovery):"
-    default: "casheiro"
+    label: "Organização GitHub:"
+    required: true
+    when:
+      promptId: enableDiscovery
+      value: "Sim"
     target:
       file: "config/cluster-values.yaml"
       path: ".discovery.organization"

@@ -31,7 +31,7 @@ Uma seleção curada das melhores ferramentas Open Source, orquestradas para tra
 - **O Guardião:** Enterprise e Times de Plataforma. Busca Governança, auditoria e segurança.
 
 ## 5. Mapa de Módulos
-- `setup/`: Scripts de bootstrap VPS (Legado/Manutenção).
+
 - `cluster-config/`: Definições GitOps (Kustomize) do estado desejado.
 - `manifests/`: Recursos Kubernetes raw.
 - `workflows/`: Definições de pipelines CI.
