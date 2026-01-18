@@ -261,7 +261,7 @@ Abaixo está a descrição de cada diretório de governança:
 
 O `.synapstor` é o repositório central de conhecimento do projeto. Ele serve como uma "fonte da verdade" para qualquer agente de IA, garantindo que as decisões e automações estejam alinhadas com a arquitetura e os padrões definidos.
 
--   **Fonte Canônica de Contexto:** Contém o overview do projeto, backlog técnico, diagramas e, mais importante, as **UKIs (Unidades de Conhecimento Inteligente)**.
+-   **Fonte Canônica de Contexto:** Contém o overview do projeto, backlog técnico, diagramas e, mais importante, as **UKIs (Unidades de Conhecimento Interligada)**.
 -   **UKIs (`.synapstor/.uki/`):** São documentos que registram decisões arquiteturais, padrões de código, e regras de negócio de forma estruturada para que a IA possa consultá-las.
 -   **Portabilidade:** É agnóstico de IDE e pode ser usado por qualquer ferramenta de IA com capacidade de ler arquivos para se contextualizar sobre o projeto.
 

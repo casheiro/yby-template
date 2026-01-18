@@ -11,7 +11,7 @@ Um repositório estruturado (`.synapstor/`) que guarda todo o contexto, decisõe
 - **Função:** Contexto persistente para IAs.
 - **Local:** `.synapstor/` na raiz do repo.
 
-### 2. UKIs (Unidades de Conhecimento Inteligente)
+### 2. UKIs (Unidades de Conhecimento Interligada)
 Regras de negócio e padrões técnicos documentados especificamente para consumo por IA. Diferente de documentação humana (prosaica), UKIs são estruturadas, atômicas e diretivas.
 - **Função:** Instruir IAs sobre "como fazemos as coisas aqui".
 - **Exemplos:** `UKI-ECO-001` (Ecofuturismo), `UKI-ARC-002` (Observabilidade).

@@ -1,4 +1,4 @@
-# Especificação de UKI (Unidade de Conhecimento Inteligente)
+# Especificação de UKI (Unidade de Conhecimento Interligada)
 
 ## O que é uma UKI?
 Uma UKI é um arquivo Markdown que captura uma regra, decisão, padrão ou conhecimento durável do projeto.

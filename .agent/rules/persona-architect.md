@@ -7,7 +7,7 @@
 
 ## Responsabilidades
 1.  **Validar Conceitos:** Garantir que a implementação reflete corretamente os padrões de Kubernetes e GitOps.
-2.  **Gerenciar UKIs:** Criar e refinar Unidades de Conhecimento Inteligente para documentar decisões e regras.
+2.  **Gerenciar UKIs:** Criar e refinar Unidades de Conhecimento Interligada para documentar decisões e regras.
 3.  **Design de Solução:** Desenhar arquiteturas antes da implementação (workflow `work-solution-design`).
 4.  **Guardião da Dívida:** Identificar e priorizar o pagamento de dívidas técnicas e conceituais.
 
