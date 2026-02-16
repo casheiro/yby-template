@@ -18,26 +18,39 @@ spec:
         app: minha-app
     spec:
       containers:
-      - name: minha-app
-        image: ghcr.io/seu-usuario/minha-app:latest
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 30
-          timeoutSeconds: 5
+        - name: minha-app
+          image: ghcr.io/seu-usuario/minha-app:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            timeoutSeconds: 5
+
+          # Yby Hardened Standard: Mount Secrets in RAM
+          # volumeMounts:
+          # - name: secrets-vol
+          #   mountPath: "/run/secrets"
+          #   readOnly: true
+
+      # volumes:
+      # - name: secrets-vol
+      #   projected:
+      #     sources:
+      #     - secret:
+      #         name: minha-app-secrets
+      #     defaultMode: 420 # 0444
