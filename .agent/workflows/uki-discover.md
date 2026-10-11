@@ -4,7 +4,7 @@ description: Descobrir e entender UKIs relevantes para uma tarefa
 
 # Workflow: UKI Discover
 
-**Objetivo:** Antes de iniciar qualquer trabalho, identificar quais Unidades de Conhecimento Inteligente (UKIs) se aplicam ao contexto.
+**Objetivo:** Antes de iniciar qualquer trabalho, identificar quais Unidades de Conhecimento Interligada (UKIs) se aplicam ao contexto.
 
 ## Quando usar
 - Início de qualquer tarefa relevante.

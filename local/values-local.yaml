@@ -20,3 +20,9 @@ kube-prometheus-stack:
       serviceMonitorSelectorNilUsesHelmValues: false
       serviceMonitorSelector: {}
       serviceMonitorNamespaceSelector: {}
+
+# Hybrid GitOps (Local Mirror)
+gitServer:
+  enabled: true
+  persistence:
+    enabled: false

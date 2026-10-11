@@ -8,7 +8,7 @@ Estas regras se aplicam a **todos os agents e workflows** executados neste repos
 
 ## 2. Fonte da Verdade: Synapstor
 - **.synapstor/** é a memória do projeto. Antes de perguntar, leia.
-- **UKIs:** Respeite as Unidades de Conhecimento Inteligente. Se uma UKI diz "X", não faça "Y" sem discutir.
+- **UKIs:** Respeite as Unidades de Conhecimento Interligada. Se uma UKI diz "X", não faça "Y" sem discutir.
 
 ## 3. Princípios de Engenharia (Yby)
 - **GitOps Radical:** O cluster reflete o Git. Não sugira `kubectl edit` como solução permanente.
